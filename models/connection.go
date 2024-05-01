@@ -10,7 +10,7 @@ var DB *gorm.DB
 
 // Connect to the PostgreSQL database
 func ConnectDB() {
-	db, err := gorm.Open(postgres.Open("host=localhost user=root password=root dbname=mux_store port=5432 sslmode=disable"), &gorm.Config{})
+	db, err := gorm.Open(postgres.Open("host=localhost user=postgres password=root dbname=mux_store port=5432 sslmode=disable"), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}

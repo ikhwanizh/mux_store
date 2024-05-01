@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"online-store-backend/controllers/categorycontroller"
 	"online-store-backend/controllers/productcontroller"
 	"online-store-backend/models"
 
@@ -17,6 +18,12 @@ func main() {
 	r.HandleFunc("/products", productcontroller.Create).Methods("POST")
 	r.HandleFunc("/products/{id}", productcontroller.Update).Methods("PUT")
 	r.HandleFunc("/products/{id}", productcontroller.Delete).Methods("DELETE")
+
+	r.HandleFunc("/categories", categorycontroller.Index).Methods("GET")
+	r.HandleFunc("/categories/{id}", categorycontroller.Show).Methods("GET")
+	r.HandleFunc("/categories", categorycontroller.Create).Methods("POST")
+	r.HandleFunc("/categories/{id}", categorycontroller.Update).Methods("PUT")
+	r.HandleFunc("/categories/{id}", categorycontroller.Delete).Methods("DELETE")
 
 	http.ListenAndServe(":8080", r)
 }
