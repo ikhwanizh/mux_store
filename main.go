@@ -7,6 +7,7 @@ import (
 	"online-store-backend/controllers/auth"
 	"online-store-backend/controllers/cartcontroller"
 	"online-store-backend/controllers/categorycontroller"
+	"online-store-backend/controllers/ordercontroller"
 	"online-store-backend/controllers/productcontroller"
 	middleware "online-store-backend/middlewares"
 	"online-store-backend/models"
@@ -41,7 +42,8 @@ func main() {
 	api.HandleFunc("/cart", cartcontroller.ViewCart).Methods("GET")
 	api.HandleFunc("/cart", cartcontroller.AddToCart).Methods("POST")
 	api.HandleFunc("/cart/{cartItemID}", cartcontroller.DeleteCartItem).Methods("DELETE")
-	// api.HandleFunc("/cart/checkout", ordercontroller.Checkout).Methods("POST")
+
+	api.HandleFunc("/order/checkout", ordercontroller.Checkout).Methods("POST")
 
 	fmt.Println("Server is running on port 8080")
 	http.ListenAndServe(":8080", r)

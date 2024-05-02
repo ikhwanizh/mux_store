@@ -46,7 +46,6 @@ func Show(w http.ResponseWriter, r *http.Request) {
 }
 
 func Create(w http.ResponseWriter, r *http.Request) {
-
 	var product models.Product
 
 	decoder := json.NewDecoder(r.Body)
@@ -57,12 +56,20 @@ func Create(w http.ResponseWriter, r *http.Request) {
 
 	defer r.Body.Close()
 
+	// Create the product in the database
 	if err := models.DB.Create(&product).Error; err != nil {
 		responseError(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	responseJson(w, product, http.StatusCreated)
+	// Reload the product with the category preloaded to include category details in the response
+	var loadedProduct models.Product
+	if err := models.DB.Preload("Category").First(&loadedProduct, product.ID).Error; err != nil {
+		responseError(w, "Failed to load product with category: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	responseJson(w, loadedProduct, http.StatusCreated)
 }
 
 func Update(w http.ResponseWriter, r *http.Request) {
