@@ -1,5 +1,5 @@
 # Mux Store
-TechStack: Go, Gorilla Mux, Gorm, Postgresql
+TechStack: Go, Gorilla Mux, Gorm, Postgresql, JWT
 
 # API Documentation:
 https://documenter.getpostman.com/view/28674985/2sA3JFB4pP
