@@ -1,16 +1,20 @@
 package models
 
-// Cart represents a user's shopping cart
+import (
+	"gorm.io/gorm"
+)
+
 type Cart struct {
-	ID     int        `json:"id" gorm:"primaryKey"`
-	UserID int        `json:"user_id"`
-	Items  []CartItem `json:"items,omitempty" gorm:"foreignKey:CartID"`
+	gorm.Model
+	UserID    uint       `json:"user_id"` // Foreign key for User
+	User      User       `gorm:"foreignKey:UserID"`
+	CartItems []CartItem `gorm:"foreignKey:CartID"` // Correct foreign key definition
 }
 
-// CartItem represents an item in a user's shopping cart
 type CartItem struct {
-	ID        int `json:"id" gorm:"primaryKey"`
-	CartID    int `json:"cart_id"`
-	ProductID int `json:"product_id"`
-	Quantity  int `json:"quantity"`
+	gorm.Model
+	CartID    uint    `json:"cart_id"`    // Foreign key for Cart
+	ProductID uint    `json:"product_id"` // Foreign key for Product
+	Product   Product `gorm:"foreignKey:ProductID"`
+	Quantity  int     `json:"quantity"`
 }

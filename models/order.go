@@ -1,11 +1,15 @@
 package models
 
-import "time"
+import (
+	"time"
 
-// Order represents an order made by a user
+	"gorm.io/gorm"
+)
+
 type Order struct {
-	ID         int       `json:"id" gorm:"primaryKey"`
-	UserID     int       `json:"user_id"`
+	gorm.Model
+	UserID     uint      `json:"user_id"`
+	User       User      `gorm:"foreignKey:UserID"`
 	TotalPrice float64   `json:"total_price"`
 	CreatedAt  time.Time `json:"created_at"`
 }

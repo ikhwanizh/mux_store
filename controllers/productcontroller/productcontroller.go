@@ -131,3 +131,27 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	responseJson(w, product, http.StatusOK)
 
 }
+
+// Filter products by category
+func FilterByCategory(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	categoryID, err := strconv.Atoi(vars["category_id"])
+	if err != nil {
+		switch err {
+		case gorm.ErrRecordNotFound:
+			responseError(w, "Product not found", http.StatusNotFound)
+			return
+		default:
+			responseError(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}
+
+	var products []models.Product
+	if err := models.DB.Where("category_id = ?", categoryID).Find(&products).Error; err != nil {
+		responseError(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	responseJson(w, products, http.StatusOK)
+}

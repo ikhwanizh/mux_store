@@ -1,7 +1,11 @@
 package models
 
-// Category represents a product category
+import (
+	"gorm.io/gorm"
+)
+
 type Category struct {
-	ID   int    `json:"id" gorm:"primaryKey"`
-	Name string `json:"name"`
+	gorm.Model
+	Name     string    `json:"name"`
+	Products []Product `gorm:"foreignKey:CategoryID"`
 }

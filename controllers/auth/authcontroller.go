@@ -2,6 +2,7 @@ package auth
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"online-store-backend/config"
 	"online-store-backend/helper"
@@ -68,14 +69,16 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	//JWT
-	expTime := time.Now().Add(1 * time.Minute)
+	expTime := time.Now().Add(60 * time.Minute)
 	claims := &config.JWTClaims{
+		UserID:   user.ID,
 		Username: user.Username,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 		},
 	}
+	log.Print(claims.UserID, "halo")
 
 	tokenAlgo := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	token, err := tokenAlgo.SignedString(config.JWT_KEY)
